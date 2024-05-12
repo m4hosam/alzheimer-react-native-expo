@@ -4,8 +4,12 @@ import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import { Link, useRouter } from "expo-router";
 
 export default function HomeScreen() {
+  const router = useRouter();
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
@@ -16,22 +20,13 @@ export default function HomeScreen() {
         />
       }
     >
-      <Button
-        title="Memory Game"
-        // onPress={() => navigation.navigate("ScreenName1")}
-      />
-      <Button
-        title="Audio"
-        // onPress={() => navigation.navigate("ScreenName2")}
-      />
-      <Button
-        title="Manual Skill"
-        // onPress={() => navigation.navigate("ScreenName3")}
-      />
-      <Button
-        title="Medication"
-        // onPress={() => navigation.navigate("ScreenName4")}
-      />
+      <Link className="bg-blue-300 text-2xl text-center" href="/audio">
+        d
+      </Link>
+      <Button title="Memory Game" onPress={() => router.push("/memory-game")} />
+      <Button title="Audio" onPress={() => router.push("/audio")} />
+      <Button title="Manual Skill" onPress={() => router.push("/skills")} />
+      <Button title="Medication" onPress={() => router.push("/medication")} />
     </ParallaxScrollView>
   );
 }
