@@ -16,17 +16,23 @@ import {
 import CustomButton from "@/components/customButton";
 
 const Game = () => {
-  const [buttonColor, setButtonColor] = useState("bg-blue-300");
-  const handlePress = (text: string) => {
-    if (text === "green") {
-      setButtonColor("bg-green-500");
+  const [buttonColor, setButtonColor] = useState<{ [key: number]: string }>({});
+
+  const handlePress = (text: string, index: number) => {
+    let newButtonColor = { ...buttonColor };
+    if (text === "Sister") {
+      newButtonColor[index] = "bg-green-500";
     } else {
-      setButtonColor("bg-red-500");
+      newButtonColor[index] = "bg-red-500";
     }
+    setButtonColor(newButtonColor);
     setTimeout(() => {
-      setButtonColor("bg-blue-300");
-    }, 2000);
+      newButtonColor[index] = "bg-blue-300";
+      setButtonColor(newButtonColor);
+    }, 10);
   };
+
+  const buttonTexts = ["Dad", "Mom", "Brother", "Sister"];
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -43,38 +49,20 @@ const Game = () => {
             className="w-2/3 mb-10"
           />
           <View className="w-full  flex flex-col gap-y-5">
-            <TouchableOpacity
-              onPress={() => handlePress("red")}
-              activeOpacity={0.7}
-              className={`bg-secondary rounded-xl min-h-[50px] flex flex-row justify-center items-center ${buttonColor}`}
-            >
-              <Text className="text-primary font-psemibold text-lg">Dad</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress("red")}
-              activeOpacity={0.7}
-              className={`bg-secondary rounded-xl min-h-[50px] flex flex-row justify-center items-center ${buttonColor}`}
-            >
-              <Text className="text-primary font-psemibold text-lg">
-                Grandson
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress("green")}
-              activeOpacity={0.7}
-              className={`bg-secondary rounded-xl min-h-[50px] flex flex-row justify-center items-center ${buttonColor}`}
-            >
-              <Text className="text-primary font-psemibold text-lg">
-                Sister
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress("red")}
-              activeOpacity={0.7}
-              className={`bg-secondary rounded-xl min-h-[50px] flex flex-row justify-center items-center ${buttonColor}`}
-            >
-              <Text className="text-primary font-psemibold text-lg">Son</Text>
-            </TouchableOpacity>
+            {buttonTexts.map((text, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handlePress(text, index)}
+                activeOpacity={0.7}
+                className={`bg-secondary rounded-xl min-h-[50px] flex flex-row justify-center items-center ${
+                  buttonColor[index] || "bg-blue-300"
+                }`}
+              >
+                <Text className="text-primary font-psemibold text-lg">
+                  {text}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       </ScrollView>
