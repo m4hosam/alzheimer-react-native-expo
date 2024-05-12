@@ -17,10 +17,35 @@ import CustomButton from "@/components/customButton";
 
 const Game = () => {
   const [buttonColor, setButtonColor] = useState<{ [key: number]: string }>({});
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  const questions = [
+    {
+      image: require("../../assets/family/sister.jpg"),
+      options: ["Mom", "Granddaughter", "Niece", "Sister"],
+      answer: "Sister",
+    },
+    {
+      image: require("../../assets/family/grandson.jpg"),
+      options: ["Son", "Grandson", "Brother", "Nephew"],
+      answer: "Grandson",
+    },
+    {
+      image: require("../../assets/family/granddaughter.jpg"),
+      options: ["Niece", "Granddaughter", "Brother", "Sister"],
+      answer: "Granddaughter",
+    },
+    {
+      image: require("../../assets/family/son.jpg"),
+      options: ["Dad", "Grandson", "Son", "Brother"],
+      answer: "Son",
+    },
+    // ... other questions
+  ];
 
   const handlePress = (text: string, index: number) => {
     let newButtonColor = { ...buttonColor };
-    if (text === "Sister") {
+    if (text === questions[currentQuestion].answer) {
       newButtonColor[index] = "bg-green-500";
     } else {
       newButtonColor[index] = "bg-red-500";
@@ -32,7 +57,18 @@ const Game = () => {
     }, 10);
   };
 
-  const buttonTexts = ["Dad", "Mom", "Brother", "Sister"];
+  const handleNext = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setButtonColor({});
+    }
+  };
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+      setButtonColor({});
+    }
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -44,12 +80,12 @@ const Game = () => {
           }}
         >
           <Image
-            source={require("../../assets/family/sister.jpg")}
+            source={questions[currentQuestion].image}
             resizeMode="contain"
             className="w-2/3 mb-10"
           />
           <View className="w-full  flex flex-col gap-y-5">
-            {buttonTexts.map((text, index) => (
+            {questions[currentQuestion].options.map((text, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => handlePress(text, index)}
@@ -63,6 +99,27 @@ const Game = () => {
                 </Text>
               </TouchableOpacity>
             ))}
+
+            <View className="w-full flex flex-row justify-between">
+              <TouchableOpacity
+                onPress={handlePrevious}
+                activeOpacity={0.7}
+                className="w-28 bg-secondary rounded-xl min-h-[50px] flex flex-row justify-center items-center bg-orange-300 "
+              >
+                <Text className="text-primary font-psemibold text-lg">
+                  Previous
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleNext}
+                activeOpacity={0.7}
+                className="w-28 bg-secondary rounded-xl min-h-[50px] flex flex-row justify-center items-center bg-orange-300 "
+              >
+                <Text className="text-primary font-psemibold text-lg">
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ScrollView>
