@@ -24,7 +24,7 @@ const AuthLayout = () => {
           }}
         />
         <Stack.Screen
-          name="skills"
+          name="video-skills"
           options={{
             headerShown: false,
           }}

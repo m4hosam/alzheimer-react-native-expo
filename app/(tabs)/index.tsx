@@ -25,7 +25,10 @@ export default function HomeScreen() {
       </Link>
       <Button title="Memory Game" onPress={() => router.push("/memory-game")} />
       <Button title="Audio" onPress={() => router.push("/audio")} />
-      <Button title="Manual Skill" onPress={() => router.push("/skills")} />
+      <Button
+        title="Manual Skill"
+        onPress={() => router.push("/video-skills")}
+      />
       <Button title="Medication" onPress={() => router.push("/medication")} />
     </ParallaxScrollView>
   );
