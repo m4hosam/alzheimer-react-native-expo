@@ -1,3 +1,4 @@
+// npx expo start --localhost --android -c
 import {
   DarkTheme,
   DefaultTheme,
