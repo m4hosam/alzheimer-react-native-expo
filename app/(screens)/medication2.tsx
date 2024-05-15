@@ -19,6 +19,7 @@ import { FloatingAction } from "react-native-floating-action";
 import { AntDesign } from "@expo/vector-icons";
 import RadioGroup from "react-native-radio-buttons-group";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import * as Notifications from "expo-notifications";
 
 interface Medication {
   drugName: string;
@@ -31,10 +32,18 @@ const hungerData = [
   { id: "Before Meal", label: "Before Meal", value: "Before Meal" },
 ];
 
-const medication = () => {
+export default async function Medication() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [isFormVisible, setFormVisibility] = useState(false);
+
+  // const { status } = await Notifications.requestPermissionsAsync();
+
+  // if (status !== "granted") {
+  //   alert("You need to enable permissions in order to receive notifications");
+  //   return;
+  // }
+
   // Used for floating action button
   const floatingActions = [
     {
@@ -44,6 +53,17 @@ const medication = () => {
       position: 1,
     },
   ];
+  // Notification
+  // const scheduleNotification = async (medication: Medication) => {
+  //   await Notifications.scheduleNotificationAsync({
+  //     content: {
+  //       title: "Medication Reminder",
+  //       body: `Time to take ${medication.drugName}`,
+  //       data: { data: "goes here" },
+  //     },
+  //     trigger: medication.time,
+  //   });
+  // };
 
   const [medication, setMedication] = useState<Medication>({
     drugName: "",
@@ -213,8 +233,4 @@ const medication = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
-
-export default medication;
-
-const styles = StyleSheet.create({});
+}

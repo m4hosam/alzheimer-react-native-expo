@@ -20,7 +20,7 @@ export default function HomeScreen() {
         />
       }
     >
-      <Link className="bg-blue-300 text-2xl text-center" href="/audio">
+      <Link className="bg-blue-300 text-2xl text-center" href="/test">
         d
       </Link>
       <Button title="Memory Game" onPress={() => router.push("/memory-game")} />
