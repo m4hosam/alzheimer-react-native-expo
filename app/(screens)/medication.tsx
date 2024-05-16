@@ -46,7 +46,7 @@ const MedicationScreen = () => {
     },
   ];
 
-  const [medication, setMedication] = useState<Medication>({
+  const [newMed, setNewMed] = useState<Medication>({
     drugName: "",
     dose: "",
     hungerStatus: "",
@@ -82,14 +82,14 @@ const MedicationScreen = () => {
   }, [medications]);
 
   const handleChange = (field: keyof Medication, value: any) => {
-    setMedication({
-      ...medication,
+    setNewMed({
+      ...newMed,
       [field]: value,
     });
   };
 
   const handleTimeChange = (event: any, selectedTime: Date | undefined) => {
-    if (selectedTime) {
+    if (event.type === "set" && selectedTime) {
       if (selectedTime.getTime() < Date.now()) {
         selectedTime.setTime(selectedTime.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours
       }
@@ -100,18 +100,18 @@ const MedicationScreen = () => {
   };
 
   const handleSubmit = async () => {
-    setMedications([...medications, medication]);
+    setMedications([...medications, newMed]);
+    await schedulePushNotification(newMed.time, newMed.drugName);
     // Reset the medication state
-    setMedication({
+    setNewMed({
       drugName: "",
       dose: "",
       hungerStatus: "",
       time: new Date(),
     });
-    // await schedulePushNotification();
     setFormVisibility(false);
     // Handle form submission
-    console.log(medication);
+    console.log(newMed);
   };
 
   return (
@@ -151,7 +151,7 @@ const MedicationScreen = () => {
           <FloatingAction
             actions={floatingActions}
             onPressItem={() => {
-              setMedication({
+              setNewMed({
                 drugName: "",
                 dose: "",
                 hungerStatus: "",
@@ -192,13 +192,13 @@ const MedicationScreen = () => {
                   radioButtons={hungerData}
                   layout="row"
                   onPress={(value) => handleChange("hungerStatus", value)}
-                  selectedId={medication.hungerStatus}
+                  selectedId={newMed.hungerStatus}
                 />
                 <View className="w-full flex flex-row items-center justify-between">
                   <Text>
                     Time:{" "}
-                    {`${new Date(medication.time).getHours()}:${new Date(
-                      medication.time
+                    {`${new Date(newMed.time).getHours()}:${new Date(
+                      newMed.time
                     ).getMinutes()}`}
                   </Text>
                   <TouchableOpacity

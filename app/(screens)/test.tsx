@@ -80,21 +80,24 @@ export default function App() {
       <Button
         title="Press to schedule a notification"
         onPress={async () => {
-          await schedulePushNotification();
+          await schedulePushNotification(
+            new Date(Date.now() + 5000),
+            "Paracetamol"
+          );
         }}
       />
     </View>
   );
 }
 
-export async function schedulePushNotification() {
+export async function schedulePushNotification(time: Date, medName: string) {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "You've got mail! 📬",
-      body: "Here is the notification body",
+      title: "Medication Alert",
+      body: "You need to take your " + medName + " now!",
       data: { data: "goes here", test: { test1: "more data" } },
     },
-    trigger: { seconds: 2 },
+    trigger: time,
   });
 }
 
