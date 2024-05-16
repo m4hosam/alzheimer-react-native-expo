@@ -30,6 +30,12 @@ const AuthLayout = () => {
           }}
         />
         <Stack.Screen
+          name="location"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="test"
           options={{
             headerShown: false,
