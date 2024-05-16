@@ -19,6 +19,7 @@ import { FloatingAction } from "react-native-floating-action";
 import { AntDesign } from "@expo/vector-icons";
 import RadioGroup from "react-native-radio-buttons-group";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { schedulePushNotification } from "./test";
 
 interface Medication {
   drugName: string;
@@ -31,7 +32,7 @@ const hungerData = [
   { id: "Before Meal", label: "Before Meal", value: "Before Meal" },
 ];
 
-const medication = () => {
+const MedicationScreen = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [isFormVisible, setFormVisibility] = useState(false);
@@ -92,15 +93,22 @@ const medication = () => {
       if (selectedTime.getTime() < Date.now()) {
         selectedTime.setTime(selectedTime.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours
       }
-      console.log(selectedTime);
+      console.log(selectedTime.getHours(), selectedTime.getMinutes());
       handleChange("time", selectedTime);
     }
     setDatePickerVisibility(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setMedications([...medications, medication]);
-    // scheduleNotification(medication);
+    // Reset the medication state
+    setMedication({
+      drugName: "",
+      dose: "",
+      hungerStatus: "",
+      time: new Date(),
+    });
+    // await schedulePushNotification();
     setFormVisibility(false);
     // Handle form submission
     console.log(medication);
@@ -142,7 +150,16 @@ const medication = () => {
           ))}
           <FloatingAction
             actions={floatingActions}
-            onPressItem={() => setFormVisibility(true)}
+            onPressItem={() => {
+              setMedication({
+                drugName: "",
+                dose: "",
+                hungerStatus: "",
+                time: new Date(),
+              });
+              setFormVisibility(true);
+            }}
+            // onPressItem={() => setFormVisibility(true)}
           />
           <Modal
             visible={isFormVisible}
@@ -215,6 +232,4 @@ const medication = () => {
   );
 };
 
-export default medication;
-
-const styles = StyleSheet.create({});
+export default MedicationScreen;
