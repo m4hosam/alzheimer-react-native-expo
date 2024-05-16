@@ -132,7 +132,7 @@ const MedicationScreen = () => {
               key={index}
               className="w-full bg-slate-200 flex my-3 flex-row justify-between items-center p-5 rounded-xl "
             >
-              <View className="flex flex-col ">
+              <View className="flex flex-col w-48">
                 <Text className="text-2xl text-left">
                   {medication.drugName}
                 </Text>
@@ -146,6 +146,20 @@ const MedicationScreen = () => {
                   medication.time
                 ).getMinutes()}`}
               </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  const newMedications = medications.filter(
+                    (_, i) => i !== index
+                  );
+                  setMedications(newMedications);
+                  AsyncStorage.setItem(
+                    "medications",
+                    JSON.stringify(newMedications)
+                  );
+                }}
+              >
+                <AntDesign name="delete" size={24} color="red" />
+              </TouchableOpacity>
             </View>
           ))}
           <FloatingAction
