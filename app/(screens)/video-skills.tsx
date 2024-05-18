@@ -1,31 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  View,
-  Text,
-  ScrollView,
-  Dimensions,
-  Button,
-  PixelRatio,
-  Alert,
-  Image,
-  StyleSheet,
-} from "react-native";
+import { View, Text, ScrollView, Dimensions, StyleSheet } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 
-const videoSource =
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+const videoSource = require("../../assets/videos/door.mp4");
 
 const VideoSkills = () => {
   const video = React.useRef(null);
-  const [status, setStatus] = React.useState({});
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView>
       <ScrollView>
         <View
-          className="w-full flex justify-center h-full px-4 my-6"
+          className="w-full flex justify-center px-4 my-6"
           style={{
-            minHeight: Dimensions.get("window").height - 100,
+            minHeight: Dimensions.get("window").height - 200,
           }}
         >
           {/* <Text>Skills</Text> */}
@@ -33,24 +21,12 @@ const VideoSkills = () => {
             <Video
               ref={video}
               style={styles.video}
-              source={{
-                uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-              }}
+              source={videoSource}
               useNativeControls
               resizeMode={ResizeMode.CONTAIN}
               isLooping
               // onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             />
-            <View>
-              {/* <Button
-                title={status.isPlaying ? "Pause" : "Play"}
-                onPress={() =>
-                  status.isPlaying
-                    ? video.current.pauseAsync()
-                    : video.current.playAsync()
-                }
-              /> */}
-            </View>
           </View>
         </View>
       </ScrollView>

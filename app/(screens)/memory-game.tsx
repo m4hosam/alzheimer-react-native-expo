@@ -71,12 +71,12 @@ const Game = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-primary">
       <ScrollView>
         <View
-          className="w-full flex justify-center items-center h-full px-4 my-6"
+          className="w-full flex justify-center items-center px-4 my-6"
           style={{
-            minHeight: Dimensions.get("window").height - 100,
+            minHeight: Dimensions.get("window").height - 200,
           }}
         >
           <Image

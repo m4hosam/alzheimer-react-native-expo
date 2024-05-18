@@ -121,12 +121,12 @@ const AudioScreen = () => {
   };
 
   return (
-    <SafeAreaView className=" h-full">
+    <SafeAreaView>
       <ScrollView>
         <View
-          className="w-full flex justify-center h-full px-4 my-6"
+          className="w-full flex justify-center  px-4 my-6"
           style={{
-            minHeight: Dimensions.get("window").height - 100,
+            minHeight: Dimensions.get("window").height - 200,
           }}
         >
           <View className="w-full items-center">

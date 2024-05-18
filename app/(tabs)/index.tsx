@@ -46,14 +46,14 @@ export default function HomeScreen() {
             icon={<AntDesign name="medicinebox" size={35} color="black" />}
           />
           <FeatureButton
-            title="Test"
-            route="/test"
-            icon={<FontAwesome name="question" size={24} color="black" />}
+            title="Heart"
+            route="/heart"
+            icon={<FontAwesome name="heartbeat" size={24} color="black" />}
           />
           <FeatureButton
             title="Location"
             route="/location"
-            icon={<FontAwesome name="question" size={24} color="black" />}
+            icon={<Entypo name="location-pin" size={24} color="black" />}
           />
 
           {/* <Link className="bg-blue-300 text-2xl text-center" href="/test">

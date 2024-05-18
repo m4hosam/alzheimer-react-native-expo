@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Button, Text, ScrollView, Dimensions, View } from "react-native";
+import {
+  Button,
+  Text,
+  ScrollView,
+  ToastAndroid,
+  Dimensions,
+  View,
+} from "react-native";
 import * as Location from "expo-location";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as SMS from "expo-sms";
 
 type Coordinates = {
   latitude: number;
@@ -49,7 +57,7 @@ const App = () => {
     if (!coordinates) return;
 
     // 500 meters in degrees
-    const distanceInDegrees = 500 / 111000;
+    const distanceInDegrees = 800 / 111000;
 
     // Random angle
     const theta = Math.random() * (2 * Math.PI);
@@ -67,29 +75,61 @@ const App = () => {
     getLocation();
 
     // Start monitoring location changes
-    const watchId = Location.watchPositionAsync(
-      { distanceInterval: 500 },
-      (location) => {
-        if (!originalCoordinates) return;
+    // const watchId = Location.watchPositionAsync(
+    //   { distanceInterval: 500 },
+    //   (location) => {
+    //     if (!originalCoordinates) return;
 
-        const distance = getDistance(
-          originalCoordinates.latitude,
-          originalCoordinates.longitude,
-          location.coords.latitude,
-          location.coords.longitude
-        );
+    //     const distance = getDistance(
+    //       coordinates?.latitude || 0,
+    //       coordinates?.longitude || 0,
+    //       location.coords.latitude,
+    //       location.coords.longitude
+    //     );
 
-        if (distance > 500) {
-          alert("You have moved more than 500m from your original location!");
-        }
-      }
-    );
+    //     if (distance > 500) {
+    //       alert("You have moved more than 500m from your original location!");
+    //     }
+    //   }
+    // );
 
     // Clean up the location watcher on unmount
-    return () => {
-      watchId.then((subscription) => subscription.remove());
-    };
-  }, []);
+    // return () => {
+    //   watchId.then((subscription) => subscription.remove());
+    // };
+
+    async function testDistance() {
+      const distance = getDistance(
+        originalCoordinates?.latitude || 0,
+        originalCoordinates?.longitude || 0,
+        coordinates?.latitude || 0,
+        coordinates?.longitude || 0
+      );
+      // console.log("Distance: ", distance);
+      if (
+        coordinates &&
+        originalCoordinates &&
+        distance > 500 &&
+        coordinates.latitude !== originalCoordinates.latitude &&
+        coordinates.longitude !== originalCoordinates.longitude
+      ) {
+        // Expo SMS
+        // const isAvailable = await SMS.isAvailableAsync();
+        // if (isAvailable) {
+        //   // do your SMS stuff here
+        //   ToastAndroid.show("SMS is available", ToastAndroid.SHORT);
+        // } else {
+        //   // misfortune... there's no SMS available on this device
+        //   ToastAndroid.show("SMS is not available", ToastAndroid.SHORT);
+        // }
+        const message = `Patient left the area! Location: ${coordinates.latitude},  ${coordinates.longitude}`;
+        const { result } = await SMS.sendSMSAsync(["+905312403217"], message);
+        // ToastAndroid.show(result, ToastAndroid.SHORT);
+        // alert("You have moved more than 500m from your original location!");
+      }
+    }
+    testDistance();
+  }, [coordinates]);
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -102,8 +142,22 @@ const App = () => {
         >
           {coordinates ? (
             <>
+              <Text>Original Latitude: {originalCoordinates?.latitude}</Text>
+              <Text>Original Longitude: {originalCoordinates?.longitude}</Text>
+              <Text>{"  "}</Text>
               <Text>Latitude: {coordinates.latitude}</Text>
               <Text>Longitude: {coordinates.longitude}</Text>
+              <Text>{"  "}</Text>
+              <Text>
+                Distance:{" "}
+                {getDistance(
+                  originalCoordinates?.latitude || 0,
+                  originalCoordinates?.longitude || 0,
+                  coordinates.latitude,
+                  coordinates.longitude
+                )}{" "}
+                meters
+              </Text>
               <Button title="Get New Location" onPress={getRandomLocation} />
             </>
           ) : (

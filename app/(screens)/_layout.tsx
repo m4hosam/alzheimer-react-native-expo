@@ -8,13 +8,15 @@ const AuthLayout = () => {
         <Stack.Screen
           name="memory-game"
           options={{
-            headerShown: false,
+            title: "Memory Game",
+            headerShown: true,
           }}
         />
         <Stack.Screen
           name="audio"
           options={{
-            headerShown: false,
+            title: "Audio",
+            headerShown: true,
           }}
         />
         <Stack.Screen
@@ -26,19 +28,22 @@ const AuthLayout = () => {
         <Stack.Screen
           name="video-skills"
           options={{
-            headerShown: false,
+            title: "Manual Skill",
+            headerShown: true,
           }}
         />
         <Stack.Screen
           name="location"
           options={{
-            headerShown: false,
+            title: "Location",
+            headerShown: true,
           }}
         />
         <Stack.Screen
-          name="test"
+          name="heart"
           options={{
-            headerShown: false,
+            title: "Heart",
+            headerShown: true,
           }}
         />
       </Stack>
